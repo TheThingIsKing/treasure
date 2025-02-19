@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <title>Toffee - @shwe7ank</title>
-    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/2048px-Telegram_logo.svg.png" type="image/png" sizes="250x250">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Sports Select 1 - @criccoder</title>
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/2048px-Telegram_logo.svg.png" type="image/png">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.1.1/shaka-player.ui.min.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.1.1/controls.min.css" crossorigin="anonymous" />
     <style>
         body {
             background-color: black;
             margin: 0;
+            overflow: hidden;
         }
-
         [data-shaka-player-container] {
             position: absolute;
             top: 0;
@@ -23,40 +23,43 @@
         }
     </style>
 </head>
-
 <body>
-    <center>
-        <div data-shaka-player-container>
-            <video autoplay muted data-shaka-player id="video" style="width:100%; height:100%;"></video>
-        </div>
-    </center>
+
+    <div data-shaka-player-container>
+        <video autoplay muted data-shaka-player id="video" poster="https://www.disneystar.com/media/2231/7e25132017-009.jpg?width=1920&height=1080&mode=max&slimmage=true" style="width:100%;height:100%"></video>
+    </div>
 
     <script>
-        if (confirm("Join Our Telegram Channel @shwe7ank")) {
-            window.location.href = "https://t.me/+OQWAWVAffKc3MTJl";
+        if (confirm("Join Our Telegram Channel @criccoder")) {
+            window.location.href = "https://telegram.me/criccoder";
         }
 
         async function init() {
-            let video = document.getElementById("video");
-            let ui = video.ui;
-            let controls = ui.getControls();
-            let player = controls.getPlayer();
+            const video = document.getElementById("video");
+            const ui = video.ui;
+            const controls = ui.getControls();
+            const player = controls.getPlayer();
 
-            // Set up headers with cookies
-            player.getNetworkingEngine().registerRequestFilter((type, request) => {
+            // Allow cookies and authentication headers
+            player.getNetworkingEngine().registerRequestFilter(function(type, request) {
                 if (type === shaka.net.NetworkingEngine.RequestType.MANIFEST ||
                     type === shaka.net.NetworkingEngine.RequestType.SEGMENT) {
                     request.headers['Cookie'] = "Edge-Cache-Cookie=URLPrefix=aHR0cHM6Ly9tcHJvZC1jZG4udG9mZmVlbGl2ZS5jb20v:Expires=1739989187:KeyName=prod_live_events:Signature=buJr1ajPP4ooTauz5GMEUnWoNP5kzhXg1ul6iRwhmJjRI9-F90sddXZta4Ernzxp2q-IGsrCsk1UpqKWvPfdDg";
-                    request.headers['User-Agent'] = "Mozilla/5.0"; // Optional
-                    request.allowCrossSiteCredentials = true; // Allow credentials (cookies)
+                    request.headers['User-Agent'] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64)";
+                    request.allowCrossSiteCredentials = true; // Allow sending cookies
                 }
             });
 
-            // Configure the player
+            // Configure player settings
             player.configure({
                 streaming: {
                     hls: {
-                        useNativeHlsOnSafari: true // Enables better playback on Safari
+                        useNativeHlsOnSafari: false
+                    },
+                    retryParameters: {
+                        maxAttempts: 3,
+                        baseDelay: 1000,
+                        backoffFactor: 2
                     }
                 }
             });
@@ -78,8 +81,8 @@
             });
 
             try {
-                // Load the M3U8 stream
-                await player.load("https://mprod-cdn.toffeelive.com/live/match-1/index.m3u8");
+                const M3U8_URL = "https://mprod-cdn.toffeelive.com/live/match-1/index.m3u8";
+                await player.load(M3U8_URL);
                 console.log("The video has now been loaded!");
             } catch (error) {
                 console.error("Error loading video:", error);
@@ -87,10 +90,10 @@
         }
 
         document.addEventListener("shaka-ui-loaded", init);
-        document.addEventListener("shaka-ui-load-failed", () => {
+        document.addEventListener("shaka-ui-load-failed", function() {
             console.error("Unable to load the UI library!");
         });
     </script>
-</body>
 
+</body>
 </html>
