@@ -3,7 +3,6 @@
 
 <head>
     <title>Star Sports Select 1 - @criccoder</title>
-    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/2048px-Telegram_logo.svg.png" type="image/png" sizes="250x250">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <style>
@@ -15,16 +14,10 @@
             align-items: center;
             height: 100vh;
         }
-        
-        #video-container {
+
+        video {
             width: 90%;
             max-width: 800px;
-            position: relative;
-        }
-        
-        video {
-            width: 100%;
-            height: auto;
             border: 3px solid white;
             border-radius: 10px;
         }
@@ -32,38 +25,30 @@
 </head>
 
 <body>
-    <div id="video-container">
-        <video id="video" controls autoplay muted></video>
-    </div>
+    <video id="video" controls autoplay muted></video>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            if (confirm("Join Our Telegram Channel @criccoder")) {
-                window.location.href = "https://telegram.me/criccoder";
-            }
+        var video = document.getElementById('video');
+        var videoSrc = "https://corsproxy.io/?" + encodeURIComponent("http://extraott.com:80/live/6772191932/1654508883/2375.m3u8"); // CORS Fix
 
-            var video = document.getElementById('video');
-            var videoSrc = "http://extraott.com:80/live/6772191932/1654508883/2375.m3u8"; // Updated Live Stream URL
-
-            if (Hls.isSupported()) {
-                var hls = new Hls();
-                hls.loadSource(videoSrc);
-                hls.attachMedia(video);
-                hls.on(Hls.Events.MANIFEST_PARSED, function () {
-                    console.log("M3U8 Live Stream Loaded Successfully");
-                });
-                hls.on(Hls.Events.ERROR, function (event, data) {
-                    console.error("Error loading video:", data);
-                });
-            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = videoSrc;
-                video.addEventListener('loadedmetadata', function () {
-                    console.log("M3U8 Stream Loaded Successfully");
-                });
-            } else {
-                alert("Your browser does not support M3U8 playback.");
-            }
-        });
+        if (Hls.isSupported()) {
+            var hls = new Hls();
+            hls.loadSource(videoSrc);
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, function () {
+                console.log("M3U8 Live Stream Loaded Successfully");
+            });
+            hls.on(Hls.Events.ERROR, function (event, data) {
+                console.error("Error loading video:", data);
+            });
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = videoSrc;
+            video.addEventListener('loadedmetadata', function () {
+                console.log("M3U8 Stream Loaded Successfully");
+            });
+        } else {
+            alert("Your browser does not support M3U8 playback.");
+        }
     </script>
 </body>
 
