@@ -29,7 +29,7 @@
 
     <script>
         var video = document.getElementById('video');
-        var videoSrc = "https://corsproxy.io/?" + encodeURIComponent("http://extraott.com:80/live/6772191932/1654508883/2375.m3u8"); // CORS Fix
+        var videoSrc = "https://cors-anywhere.herokuapp.com/?" + encodeURIComponent("http://extraott.com:80/live/6772191932/1654508883/2375.m3u8"); // CORS Fix
 
         if (Hls.isSupported()) {
             var hls = new Hls();
