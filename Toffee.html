@@ -13,7 +13,6 @@
             margin: 0;
         }
 
-        /* Video Container */
         [data-shaka-player-container] {
             position: absolute;
             top: 0;
@@ -28,7 +27,7 @@
 <body>
     <center>
         <div data-shaka-player-container>
-            <video autoplay muted data-shaka-player id="video" poster="https://www.disneystar.com/media/2231/7e25132017-009.jpg?width=1920&height=1080&mode=max&slimmage=true" style="width:100%;height:100%"></video>
+            <video autoplay muted data-shaka-player id="video" style="width:100%; height:100%;"></video>
         </div>
     </center>
 
@@ -43,21 +42,21 @@
             let controls = ui.getControls();
             let player = controls.getPlayer();
 
-            // Custom Headers with Cookies
-            player.getNetworkingEngine().registerRequestFilter(function (type, request) {
+            // Set up headers with cookies
+            player.getNetworkingEngine().registerRequestFilter((type, request) => {
                 if (type === shaka.net.NetworkingEngine.RequestType.MANIFEST ||
                     type === shaka.net.NetworkingEngine.RequestType.SEGMENT) {
-                    request.headers['Cookie'] = "Edge-Cache-Cookie=URLPrefix=aHR0cHM6Ly9tcHJvZC1jZG4udG9mZmVlbGl2ZS5jb20v:Expires=1739989187:KeyName=prod_live_events:Signature=buJr1ajPP4ooTauz5GMEUnWoNP5kzhXg1ul6iRwhmJjRI9-F90sddXZta4Ernzxp2q-IGsrCsk1UpqKWvPfdDg";  // Replace with your cookies
+                    request.headers['Cookie'] = "Edge-Cache-Cookie=URLPrefix=aHR0cHM6Ly9tcHJvZC1jZG4udG9mZmVlbGl2ZS5jb20v:Expires=1739989187:KeyName=prod_live_events:Signature=buJr1ajPP4ooTauz5GMEUnWoNP5kzhXg1ul6iRwhmJjRI9-F90sddXZta4Ernzxp2q-IGsrCsk1UpqKWvPfdDg";
                     request.headers['User-Agent'] = "Mozilla/5.0"; // Optional
                     request.allowCrossSiteCredentials = true; // Allow credentials (cookies)
                 }
             });
 
-            // Configure player settings
+            // Configure the player
             player.configure({
                 streaming: {
                     hls: {
-                        useNativeHlsOnSafari: false
+                        useNativeHlsOnSafari: true // Enables better playback on Safari
                     }
                 }
             });
@@ -79,7 +78,7 @@
             });
 
             try {
-                // Replace with your M3U8 URL
+                // Load the M3U8 stream
                 await player.load("https://mprod-cdn.toffeelive.com/live/match-1/index.m3u8");
                 console.log("The video has now been loaded!");
             } catch (error) {
@@ -88,11 +87,10 @@
         }
 
         document.addEventListener("shaka-ui-loaded", init);
-        document.addEventListener("shaka-ui-load-failed", function () {
+        document.addEventListener("shaka-ui-load-failed", () => {
             console.error("Unable to load the UI library!");
         });
     </script>
 </body>
 
-              </html>
-              
+</html>
