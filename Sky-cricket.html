@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Sky Sports Cricket- @Shwe7ank</title>
+    <link rel=icon href=https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/2048px-Telegram_logo.svg.png type=image/png sizes=250x250>
+    <meta name=viewport content='width=device-width, initial-scale=1.0' />
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <style>
+        body {
+            background-color: black;
+            margin: 0;
+        }
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+
+<body>
+    <center>
+        <video id="hls-video" controls autoplay muted poster="https://www.disneystar.com/media/2231/7e25132017-009.jpg?width=1920&height=1080&mode=max&slimmage=true"></video>
+    </center>
+
+    <script>
+        if (confirm("Join Our Telegram Channel @shwe7ank")) {
+            window.location.href = "https://t.me/+OQWAWVAffKc3MTJl";
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var video = document.getElementById("hls-video");
+            var videoSrc = "https://hocdn.news/live/skyscric.m3u8";
+
+            if (Hls.isSupported()) {
+                var hls = new Hls();
+                hls.loadSource(videoSrc);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                    video.play();
+                });
+
+                // Quality selection logging
+                hls.on(Hls.Events.LEVEL_LOADED, function(event, data) {
+                    console.log("Available qualities:", hls.levels.map(level => level.height + "p"));
+                });
+            } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+                video.src = videoSrc;
+                video.addEventListener("loadedmetadata", function() {
+                    video.play();
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
