@@ -51,8 +51,8 @@
 <body bgcolor="black" style="margin:0">
     <center>
         <div data-shaka-player-container style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover">
-            <video autoplay muted playsinline data-shaka-player id="video" 
-                   poster="https://www.disneystar.com/media/2231/7e25132017-009.jpg?width=1920&height=1080&mode=max&slimmage=true" 
+            <video autoplay muted playsinline data-shaka-player id="video"
+                   poster="https://www.disneystar.com/media/2231/7e25132017-009.jpg?width=1920&height=1080&mode=max&slimmage=true"
                    style="width:100%;height:100%"></video>
         </div>
     </center>
@@ -76,13 +76,22 @@
                     }
                 },
                 streaming: {
-                    rebufferingGoal: 2,        // Seconds needed to resume playback after buffering
-                    bufferingGoal: 5,          // Seconds to buffer ahead of playback
-                    bufferBehind: 10,          // Keep only 10 seconds of video behind the current position
-                    lowLatencyMode: true,      // Enable low-latency streaming
-                    jumpLargeGaps: true,       // Allow skipping over gaps in the stream
-                    inaccurateManifestTolerance: 0.5, // Faster manifest synchronization
-                    startAtSegmentBoundary: true // Start playback exactly at segment boundary
+                    startAtSegmentBoundary: true, // Start playback exactly at segment boundary
+                    ignoreTextStreamFailures: true, // Ignore subtitle loading issues
+                    rebufferingGoal: 1, // Lower rebufferingGoal for faster resume
+                    bufferingGoal: 3, // Lower bufferingGoal for faster start
+                    bufferBehind: 5, // Lower bufferBehind to free memory
+                    autoLowLatencyMode: true, // Enable auto low latency if available
+                    lowLatencyMode: true, // Enable low-latency streaming
+                    jumpLargeGaps: true, // Allow skipping over gaps in the stream
+                    inaccurateManifestTolerance: 0.3, // Faster manifest synchronization
+                    stallEnabled: false // Disable stall detection for faster start
+                },
+                manifest: {
+                    dash: {
+                        ignoreMinBufferTime: true, // Ignore minBufferTime in MPD for faster start
+                        autoCorrectDrift: true // Auto-correct time drift
+                    }
                 }
             });
 
