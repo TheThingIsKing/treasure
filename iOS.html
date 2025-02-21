@@ -26,7 +26,7 @@
 
 <body>
     <center>
-        <video id="hls-video" controls autoplay muted playsinline poster="https://www.disneystar.com/media/2231/7e25132017-009.jpg?width=1920&height=1080&mode=max&slimmage=true"></video>
+        <video id="hls-video" controls autoplay muted playsinline webkit-playsinline poster="https://www.disneystar.com/media/2231/7e25132017-009.jpg?width=1920&height=1080&mode=max&slimmage=true"></video>
     </center>
 
     <script>
@@ -38,27 +38,31 @@
             var video = document.getElementById("hls-video");
             var videoSrc = "https://jcevents.jiocinema.com/bpk-tv/JC_Sports18_1HD/JCHLS/hdntl=exp=1740208827~acl=%2f*~id=d10094d21727b83d854f53350b926451~data=hdntl~hmac=d5115f9d40b9e7e81b21b7067548b2506b79fc269fc80f08937584c0ec76590b/JC_Sports18_1HD/index.m3u8";
 
-            // Enable inline playback on iOS
             video.setAttribute('playsinline', '');
             video.setAttribute('webkit-playsinline', '');
+            video.setAttribute('muted', '');
+            video.setAttribute('autoplay', '');
 
-            if (Hls.isSupported()) {
+            if (video.canPlayType("application/vnd.apple.mpegurl")) {
+                // For Safari (iOS and macOS)
+                video.src = videoSrc;
+                video.addEventListener("loadedmetadata", function () {
+                    video.play().catch(error => console.log("Autoplay failed:", error));
+                });
+            } else if (Hls.isSupported()) {
+                // For other browsers
                 var hls = new Hls();
                 hls.loadSource(videoSrc);
                 hls.attachMedia(video);
                 hls.on(Hls.Events.MANIFEST_PARSED, function () {
-                    video.play();
+                    video.play().catch(error => console.log("Autoplay failed:", error));
                 });
 
                 hls.on(Hls.Events.LEVEL_LOADED, function (event, data) {
                     console.log("Available qualities:", hls.levels.map(level => level.height + "p"));
                 });
-            } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-                // For Safari on iOS and macOS
-                video.src = videoSrc;
-                video.addEventListener("loadedmetadata", function () {
-                    video.play();
-                });
+            } else {
+                console.log("This browser does not support HLS.");
             }
         });
     </script>
