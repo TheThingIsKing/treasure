@@ -21,13 +21,14 @@
             height: 100vh;
             object-fit: contain;
             display: block;
+            -webkit-overflow-scrolling: touch;
         }
     </style>
 </head>
 
 <body>
     <center>
-        <video id="hls-video" controls autoplay muted playsinline poster="https://www.disneystar.com/media/2231/7e25132017-009.jpg?width=1920&height=1080&mode=max&slimmage=true"></video>
+        <video id="hls-video" controls autoplay muted playsinline webkit-playsinline poster="https://www.disneystar.com/media/2231/7e25132017-009.jpg?width=1920&height=1080&mode=max&slimmage=true"></video>
     </center>
 
     <script>
@@ -50,10 +51,12 @@
                 hls.on(Hls.Events.LEVEL_LOADED, function (event, data) {
                     console.log("Available qualities:", hls.levels.map(level => level.height + "p"));
                 });
-            } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+            } else if (video.canPlayType("application/x-mpegURL") || video.canPlayType("application/vnd.apple.mpegurl")) {
                 video.src = videoSrc;
                 video.addEventListener("loadedmetadata", function () {
-                    video.play();
+                    video.play().catch(function(error) {
+                        console.warn("Autoplay was prevented:", error);
+                    });
                 });
             }
         });
