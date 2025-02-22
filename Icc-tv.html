@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ICC TV - @Shwe7ank</title>
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/2048px-Telegram_logo.svg.png" type="image/png" sizes="250x250">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <style>
+        body {
+            background-color: black;
+            margin: 0;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 90vh;
+            object-fit: contain;
+        }
+    </style>
+</head>
+
+<body>
+    <video id="hls-video" controls autoplay muted poster="https://www.disneystar.com/media/2231/7e25132017-009.jpg?width=1920&height=1080&mode=max&slimmage=true"></video>
+
+    <script>
+        if (confirm("Join Our Telegram Channel @shwe7ank")) {
+            window.location.href = "https://t.me/+OQWAWVAffKc3MTJl";
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var video = document.getElementById("hls-video");
+            var videoSrc = "https://userx534.protect-cdn.net/live/m3-720p.m3u8?|drmScheme=clearkey&drmLicense=4a5191838da17a2ab771f4258fad347f:54b7a084437459368eed07d182ad644c";
+
+            if (Hls.isSupported()) {
+                var hls = new Hls();
+                hls.loadSource(videoSrc);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, function () {
+                    video.play();
+                });
+            } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+                video.src = videoSrc;
+                video.addEventListener("loadedmetadata", function () {
+                    video.play();
+                });
+            }
+
+            video.addEventListener("dblclick", function () {
+                if (!document.fullscreenElement) {
+                    video.requestFullscreen().catch(err => {
+                        console.error(`Error attempting to enable fullscreen: ${err.message}`);
+                    });
+                } else {
+                    document.exitFullscreen();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
