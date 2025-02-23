@@ -3,33 +3,35 @@
 
 <head>
     <title>Star Sports 1 HD - @Shwe7ank</title>
-    <link rel=icon href=https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/2048px-Telegram_logo.svg.png type=image/png sizes=250x250>
-    <meta name=viewport content='width=device-width, initial-scale=1.0' />
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/2048px-Telegram_logo.svg.png" type="image/png" sizes="250x250">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <style>
         body {
             background-color: black;
             margin: 0;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
         }
+
         video {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            width: 100vw;
+            height: 90vh;
+            object-fit: contain;
         }
     </style>
 </head>
 
 <body>
-    <center>
-        <video id="hls-video" controls autoplay muted poster="https://www.disneystar.com/media/2231/7e25132017-009.jpg?width=1920&height=1080&mode=max&slimmage=true"></video>
-    </center>
+    <video id="hls-video" controls autoplay muted poster="https://www.disneystar.com/media/2231/7e25132017-009.jpg?width=1920&height=1080&mode=max&slimmage=true"></video>
 
     <script>
         if (confirm("Join Our Telegram Channel @shwe7ank")) {
-            window.location.href = "https://t.me/+OQWAWVAffKc3MTJl";
+            window.location.href = "https://t.me/Shwetank_singh";
         }
 
         document.addEventListener("DOMContentLoaded", function() {
@@ -54,6 +56,17 @@
                     video.play();
                 });
             }
+
+            // Fullscreen mode
+            video.addEventListener("dblclick", function() {
+                if (!document.fullscreenElement) {
+                    video.requestFullscreen().catch(err => {
+                        console.error(`Error attempting to enable fullscreen: ${err.message}`);
+                    });
+                } else {
+                    document.exitFullscreen();
+                }
+            });
         });
     </script>
 </body>
