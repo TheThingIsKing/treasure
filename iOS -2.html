@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sky Sports - @shwe7ank</title>
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/2048px-Telegram_logo.svg.png" type="image/png" sizes="250x250">
+</head>
+<body>
+    <h1>Live Stream</h1>
+    <video id="video" controls autoplay playsinline width="100%" height="auto"></video>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            if (confirm("Join Our Telegram Channel @shwe7ank")) {
+                window.location.href = "https://t.me/Shwetank_singh";
+            }
+
+            const video = document.getElementById('video');
+            const streamUrl = 'https://hocdn.news/live/willowextra.m3u8';
+
+            if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = streamUrl;
+            } else if (Hls.isSupported()) {
+                const hls = new Hls();
+                hls.loadSource(streamUrl);
+                hls.attachMedia(video);
+            } else {
+                alert('Your browser does not support HLS streaming.');
+            }
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@1.4.0/dist/hls.min.js"></script>
+</body>
+</html>
